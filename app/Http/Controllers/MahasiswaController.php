@@ -34,12 +34,12 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+         /*$request->validate([
             'nama' => 'required',
             'nim' => 'required|unique:mahasiswa',
             'jurusan' => 'required',
             'alamat' => 'required'
-        ]);
+        ]);*/
 
         $mahasiswa = new Mahasiswa;
         $mahasiswa->nama = $request->nama;
@@ -61,17 +61,33 @@ class MahasiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id_mahasiswa)
     {
-        //
+        $mahasiswa = Mahasiswa::find($id_mahasiswa);
+        return view('update', [
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id_mahasiswa)
     {
-        //
+        // $request->validate([
+        //     'nama' => 'required',
+        //     'nim' => 'required|unique:mahasiswa',
+        //     'jurusan' => 'required',
+        //     'alamat' => 'required'
+        // ]);
+
+        $mahasiswa = Mahasiswa::find($id_mahasiswa);
+        $mahasiswa->nama = $request->nama;
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->jurusan = $request->jurusan;
+        $mahasiswa->alamat = $request->alamat;
+        $mahasiswa->save();
+        return redirect()->route('index');
     }
 
     /**
